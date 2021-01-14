@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>katas</groupId>
-  <artifactId>template</artifactId>
+  <artifactId>bowling</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>template</name>
-  <description>template</description>
+  <name>bowling</name>
+  <description>bowling</description>
 
   <properties>
     <java.version>14</java.version>
