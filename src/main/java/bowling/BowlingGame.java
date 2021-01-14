@@ -1,18 +1,43 @@
 package bowling;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class BowlingGame {
 
-  private int score;
-  
+  boolean firstStrike = true;
+  private List<Integer> hitHistory = new LinkedList<>();
+
   public int score() {
-    return score;
+    var total = 0;
+    for (int hit: hitHistory)
+      total += hit;
+    return total;
   }
 
-  public void hit(int hits) {
-    if(hits < 0) throw new IllegalArgumentException("The score can't be negative!");
-    if(hits > 10) throw new IllegalArgumentException("The score can't be positive!");
+  public void hit(int hit) {
+    if(hit < 0) throw new IllegalArgumentException("The score can't be negative!");
+    if(hit > 10) throw new IllegalArgumentException("The score can't be positive!");
 
-    score += hits;
+    if (isTurnHitsAbove10(hit))
+      throw new IllegalArgumentException();
+
+    hitHistory.add(hit);
+    firstStrike = !firstStrike;
+  }
+
+  boolean isTurnHitsAbove10(int hit) {
+    int lastScore = getLastScore();
+    return lastScore + hit > 10;
+  }
+
+  int getLastScore() {
+    if (firstStrike)
+      return 0;
+    int lastScore = 0;
+    if (hitHistory.size() > 0)
+      lastScore = hitHistory.get(hitHistory.size() - 1);
+    return lastScore;
   }
 
 }

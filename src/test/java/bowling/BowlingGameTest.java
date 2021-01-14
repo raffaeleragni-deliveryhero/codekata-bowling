@@ -3,7 +3,6 @@ package bowling;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.hamcrest.Matchers.*;
@@ -18,12 +17,12 @@ class BowlingGameTest {
   void setup() {
     game = new BowlingGame();
   }
-  
+
   @Test
   void testInitGame() {
     assertThat(game.score(), is(0));
   }
-  
+
   @Test
   void testGameScore() {
     game.hit(4);
@@ -42,6 +41,30 @@ class BowlingGameTest {
   @ValueSource(ints = {-2, 11})
   void testInvalidHit(int param){
     assertThrows(IllegalArgumentException.class, () -> game.hit(param));
+  }
+
+  @Test
+  void testDoubleHitGreaterThan10() {
+    game.hit(6);
+    assertThrows(IllegalArgumentException.class, () -> game.hit(6));
+  }
+
+  @Test
+  void testTripleHitOK() {
+    game.hit(2);
+    game.hit(4);
+
+    game.hit(6);
+    assertThat(game.score(), is(12));
+  }
+
+  @Test
+  void testTripleAboveBackToBack() {
+    game.hit(2);
+    game.hit(6);
+
+    game.hit(6);
+    assertThat(game.score(), is(14));
   }
 
 }
