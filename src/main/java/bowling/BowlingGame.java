@@ -9,7 +9,10 @@ public class BowlingGame {
   }
 
   public void hit(int hits) {
-    score = hits;
+    if(hits < 0) throw new IllegalArgumentException("The score can't be negative!");
+    if(hits > 10) throw new IllegalArgumentException("The score can't be positive!");
+
+    score += hits;
   }
-  
+
 }
