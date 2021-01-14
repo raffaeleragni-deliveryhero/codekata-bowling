@@ -67,4 +67,17 @@ class BowlingGameTest {
     assertThat(game.score(), is(14));
   }
 
+  @Test
+  void testStrike() {
+    game.hit(10);
+    
+    assertThat(game.isStrike(), is(true));
+  }
+  
+  @Test
+  void testNotStrike() {
+    game.hit(1);
+    
+    assertThat(game.isStrike(), is(false));
+  }
 }
