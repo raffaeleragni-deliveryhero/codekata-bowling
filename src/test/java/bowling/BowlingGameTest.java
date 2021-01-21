@@ -158,6 +158,17 @@ class BowlingGameTest {
     game.hit(4);
     /* 42*/
     assertThat(game.score(), is(42));
+  }
+
+  @Test
+  void maxStrikes(){
+    for(int i =0; i < 12; i++){
+      game.hit(10);
+    }
+    assertThat(game.score(), is(300));
 
   }
+
+
+
 }
