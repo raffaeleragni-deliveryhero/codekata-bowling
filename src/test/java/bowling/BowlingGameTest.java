@@ -71,13 +71,32 @@ class BowlingGameTest {
   void testStrike() {
     game.hit(10);
     
-    assertThat(game.isStrike(), is(true));
+    assertThat(game.isLastHitStrike(), is(true));
   }
   
   @Test
   void testNotStrike() {
     game.hit(1);
     
-    assertThat(game.isStrike(), is(false));
+    assertThat(game.isLastHitStrike(), is(false));
+  }
+  
+  @Test
+  void testTwoStrike() {
+    game.hit(10);
+    game.hit(10);
+    
+    assertThat(game.isLastHitStrike(), is(true));
+    assertThat(game.score(), is(30));
+  }
+  
+  @Test
+  void testThreeStrike() {
+    game.hit(10);
+    game.hit(10);
+    game.hit(10);
+    
+    assertThat(game.isLastHitStrike(), is(true));
+    assertThat(game.score(), is(60));
   }
 }

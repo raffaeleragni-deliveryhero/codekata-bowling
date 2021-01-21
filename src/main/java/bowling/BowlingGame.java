@@ -2,6 +2,7 @@ package bowling;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class BowlingGame {
 
@@ -11,9 +12,24 @@ public class BowlingGame {
 
   public int score() {
     var total = 0;
-    for (int hit: hitHistory)
+    for (int i = 0; i < hitHistory.size(); i++) {
+      int hit = hitHistory.get(i);
       total += hit;
+      
+      if (isStrike(hit)) {
+        total += safeGet(i + 1).orElse(0);
+        total += safeGet(i + 2).orElse(0);
+      }
+    }
     return total;
+  }
+  
+  private Optional<Integer> safeGet(int index) {
+    if (index > hitHistory.size() - 1) {
+      return Optional.empty();
+    }
+    
+    return Optional.of(hitHistory.get(index));
   }
 
   public void hit(int hit) {
@@ -23,10 +39,14 @@ public class BowlingGame {
     if (isTurnHitsAbove10(hit))
       throw new IllegalArgumentException();
 
-    isStrike = (hit == 10);
+    isStrike = isStrike(hit);
     
     hitHistory.add(hit);
     firstStrike = !firstStrike;
+  }
+
+  private boolean isStrike(int hit) {
+    return hit == 10;
   }
 
   boolean isTurnHitsAbove10(int hit) {
@@ -35,7 +55,7 @@ public class BowlingGame {
   }
 
   int getLastScore() {
-    if (firstStrike)
+    if (firstStrike || isLastHitStrike())
       return 0;
     int lastScore = 0;
     if (hitHistory.size() > 0)
@@ -43,7 +63,7 @@ public class BowlingGame {
     return lastScore;
   }
 
-  public boolean isStrike() {
+  public boolean isLastHitStrike() {
     return isStrike;
   }
 
