@@ -1,6 +1,7 @@
 package bowling;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -144,5 +145,19 @@ class BowlingGameTest {
     assertThat(game.isLastHitStrike(), is(false));
     assertThat(game.isLastHitSpare(), is(false));
     assertThat(game.score(), is(23));
+  }
+
+  @Test
+  void testGameFlow(){
+    game.hit(7);
+    game.hit(3);
+    /* 10*/
+    game.hit(10);
+    /* 30*/
+    game.hit(2);
+    game.hit(4);
+    /* 42*/
+    assertThat(game.score(), is(42));
+
   }
 }
