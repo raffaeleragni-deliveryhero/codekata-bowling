@@ -21,12 +21,16 @@ class BowlingGameTest {
   @Test
   void testInitGame() {
     assertThat(game.score(), is(0));
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
   }
 
   @Test
   void testGameScore() {
     game.hit(4);
     assertThat(game.score(), is(4));
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
   }
 
   @Test
@@ -34,6 +38,8 @@ class BowlingGameTest {
     game.hit(4);
     game.hit(2);
     assertThat(game.score(), is(6));
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
   }
 
 
@@ -56,6 +62,8 @@ class BowlingGameTest {
 
     game.hit(6);
     assertThat(game.score(), is(12));
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
   }
 
   @Test
@@ -65,38 +73,76 @@ class BowlingGameTest {
 
     game.hit(6);
     assertThat(game.score(), is(14));
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
   }
 
   @Test
   void testStrike() {
     game.hit(10);
-    
+
     assertThat(game.isLastHitStrike(), is(true));
+    assertThat(game.isLastHitSpare(), is(false));
   }
-  
+
   @Test
   void testNotStrike() {
     game.hit(1);
-    
+
     assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
   }
-  
+
   @Test
   void testTwoStrike() {
     game.hit(10);
     game.hit(10);
-    
+
     assertThat(game.isLastHitStrike(), is(true));
+    assertThat(game.isLastHitSpare(), is(false));
     assertThat(game.score(), is(30));
   }
-  
+
   @Test
   void testThreeStrike() {
     game.hit(10);
     game.hit(10);
     game.hit(10);
-    
+
     assertThat(game.isLastHitStrike(), is(true));
     assertThat(game.score(), is(60));
+  }
+
+  @Test
+  void testSpareNoExtraBall() {
+    game.hit(9);
+    game.hit(1);
+
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(true));
+    assertThat(game.score(), is(10));
+  }
+
+  @Test
+  void testSpareWithExtraBall() {
+    game.hit(9);
+    game.hit(1);
+    game.hit(1);
+
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
+    assertThat(game.score(), is(12));
+  }
+
+  @Test
+  void testSpareWithExtraTwoBalls() {
+    game.hit(9);
+    game.hit(1);
+    game.hit(5);
+    game.hit(3);
+
+    assertThat(game.isLastHitStrike(), is(false));
+    assertThat(game.isLastHitSpare(), is(false));
+    assertThat(game.score(), is(23));
   }
 }
